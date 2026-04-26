@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sayari Document Ledger – Digital Trust Services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #050814;
+      --card: #0c1020;
+      --accent: #3fd0c9;
+      --accent-soft: rgba(63, 208, 201, 0.12);
+      --text: #f5f7ff;
+      --muted: #a3acc7;
+      --danger: #ff6b6b;
+      --border: #1b2238;
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+              "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font);
+      background: radial-gradient(circle at top, #101633 0, #050814 55%);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 16px 64px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      gap: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #3fd0c9, #1b2238 60%, #050814 100%);
+      box-shadow: 0 0 18px rgba(63, 208, 201, 0.6);
+    }
+
+    .logo-text {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      font-size: 14px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .tagline {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    section {
+      background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.35));
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      padding: 20px 18px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+    }
+
+    h1, h2, h3 {
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .hero-highlight {
+      font-size: 14px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 6px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.4fr);
+      gap: 18px;
+      align-items: center;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease-out;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #3fd0c9, #2a9a94);
+      color: #020308;
+      box-shadow: 0 0 18px rgba(63, 208, 201, 0.6);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 24px rgba(63, 208, 201, 0.8);
+    }
+
+    .btn-ghost {
+      background: rgba(10, 14, 32, 0.8);
+      border-color: var(--border);
+      color: var(--muted);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .hero-card {
+      background: radial-gradient(circle at top, rgba(63,208,201,0.18), rgba(5,8,20,0.9));
+      border-radius: 16px;
+      border: 1px solid rgba(63,208,201,0.35);
+      padding: 14px 14px 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .hero-card-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .hero-card-label {
+      color: var(--muted);
+    }
+
+    .hero-card-value {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .hero-card-hash {
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 11px;
+      word-break: break-all;
+      color: var(--accent);
+      margin-top: 6px;
+    }
+
+    ul {
+      list-style: none;
+      margin-top: 4px;
+    }
+
+    ul li {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    ul li::before {
+      content: "•";
+      color: var(--accent);
+      margin-top: 1px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .price-card {
+      background: rgba(5, 8, 20, 0.9);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 12px 12px 10px;
+    }
+
+    .price-title {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .price-amount {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .price-note {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border: 1px solid rgba(63,208,201,0.5);
+      color: var(--accent);
+      background: rgba(63,208,201,0.06);
+      margin-bottom: 6px;
+    }
+
+    .payments-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .payments-card {
+      background: rgba(5, 8, 20, 0.9);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 10px 10px 8px;
+      font-size: 12px;
+    }
+
+    .mono {
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 11px;
+      word-break: break-all;
+      color: var(--muted);
+    }
+
+    .contact-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .btn-wa {
+      background: #25d366;
+      color: #020308;
+    }
+
+    .btn-tg {
+      background: #2aabee;
+      color: #020308;
+    }
+
+    .btn-mail {
+      background: rgba(10, 14, 32, 0.9);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .verify-form {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .verify-input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(5, 8, 20, 0.9);
+      color: var(--text);
+      font-size: 12px;
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    .verify-input::placeholder {
+      color: #5c6685;
+    }
+
+    .verify-result {
+      font-size: 12px;
+      color: var(--muted);
+      min-height: 18px;
+    }
+
+    .verify-result.ok {
+      color: var(--accent);
+    }
+
+    .verify-result.err {
+      color: var(--danger);
+    }
+
+    footer {
+      margin-top: 18px;
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .payments-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .tagline {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="logo">
+        <div class="logo-mark"></div>
+        <div class="logo-text">Sayari Document Ledger</div>
+      </div>
+      <div class="tagline">
+        Sayari Global Holding<br />
+        Digital Trust Services
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section>
+        <div class="hero-grid">
+          <div>
+            <div class="hero-highlight">Blockchain‑backed document certification</div>
+            <h1>Certify your documents in Ethereum. In 60 seconds.</h1>
+            <p>
+              We normalize your document, generate a cryptographic hash, and notarize it on Ethereum.
+              You receive a verification report that cannot be forged or altered.
+            </p>
+            <div class="hero-actions">
+              <!-- Sostituisci i link con i tuoi -->
+              <a class="btn btn-primary" href="https://wa.me/0000000000000" target="_blank">
+                Send document via WhatsApp
+              </a>
+              <a class="btn btn-ghost" href="#pricing">
+                View pricing
+              </a>
+            </div>
+          </div>
+          <div class="hero-card">
+            <div class="hero-card-row">
+              <span class="hero-card-label">Network</span>
+              <span class="hero-card-value">Ethereum mainnet</span>
+            </div>
+            <div class="hero-card-row">
+              <span class="hero-card-label">Average on‑chain fee</span>
+              <span class="hero-card-value">&lt; 0.25 USDT</span>
+            </div>
+            <div class="hero-card-row">
+              <span class="hero-card-label">Certification time</span>
+              <span class="hero-card-value">&lt; 60 seconds</span>
+            </div>
+            <div class="hero-card-hash">
+              Example hash:<br />
+              0x9f3a7c1b4e2d9a8c0f1e7b3d5c2a6f8e1b4c7d9e0a2f5b7c3d9e1f2a4b6c8d
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section>
+        <h2>How it works</h2>
+        <div class="grid-2">
+          <div>
+            <h3>1. You send the document</h3>
+            <p>
+              You send your document (PDF, image, scan, screenshot) via WhatsApp, Telegram or email.
+              No portals, no accounts, no friction.
+            </p>
+
+            <h3>2. We normalize the content</h3>
+            <p>
+              We convert the file into a canonical, stable representation (content normalization),
+              so that compression or metadata changes do not affect verification.
+            </p>
+
+            <h3>3. We generate the hash</h3>
+            <p>
+              A SHA‑256 hash is generated from the normalized content. This hash uniquely represents
+              the certified version of your document.
+            </p>
+          </div>
+          <div>
+            <h3>4. We notarize on Ethereum</h3>
+            <p>
+              The hash is recorded on Ethereum mainnet, creating an immutable, time‑stamped proof
+              of existence and integrity.
+            </p>
+
+            <h3>5. You receive a verification report</h3>
+            <p>
+              You receive a PDF or JSON report including:
+            </p>
+            <ul>
+              <li>Document hash</li>
+              <li>Timestamp and block number</li>
+              <li>Ethereum transaction ID</li>
+              <li>Verification instructions</li>
+            </ul>
+            <p>
+              Optional: we can also mint an NFT that represents the certified document.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PRICING -->
+      <section id="pricing">
+        <h2>Pricing (USDT ERC‑20)</h2>
+        <p>
+          All prices are expressed in USDT (ERC‑20). On‑chain fees are included unless otherwise stated.
+        </p>
+        <div class="grid-2">
+          <div class="price-card">
+            <div class="badge">Standard certification</div>
+            <div class="price-title">Single document</div>
+            <div class="price-amount">5 USDT</div>
+            <p class="price-note">
+              Includes content normalization, hash generation, Ethereum notarization and verification report.
+            </p>
+          </div>
+
+          <div class="price-card">
+            <div class="badge">Volume</div>
+            <div class="price-title">10 documents</div>
+            <div class="price-amount">40 USDT</div>
+            <p class="price-note">
+              Same features as single certification, with a discounted rate for small batches.
+            </p>
+          </div>
+
+          <div class="price-card">
+            <div class="badge">Enterprise</div>
+            <div class="price-title">100 documents</div>
+            <div class="price-amount">300 USDT</div>
+            <p class="price-note">
+              Ideal for companies, legal firms, compliance teams and recurring certification workflows.
+            </p>
+          </div>
+
+          <div class="price-card">
+            <div class="badge">Optional</div>
+            <div class="price-title">NFT issuance</div>
+            <div class="price-amount">15 USDT</div>
+            <p class="price-note">
+              Optional ERC‑721 NFT representing the certified document. Includes minting and metadata setup.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAYMENTS -->
+      <section>
+        <h2>Payments</h2>
+        <p>
+          We support both crypto and traditional payments. After payment, send your document via WhatsApp,
+          Telegram or email and we will process it within minutes.
+        </p>
+        <div class="payments-grid">
+          <div class="payments-card">
+            <h3>Crypto (USDT ERC‑20)</h3>
+            <p>Send USDT (ERC‑20) to the following address:</p>
+            <p class="mono">
+              0xYOUR_USDT_ERC20_ADDRESS_HERE
+            </p>
+            <p class="price-note">
+              Please include your reference (e.g. “DOC‑CERT + your email”) in the payment note if possible.
+            </p>
+          </div>
+          <div class="payments-card">
+            <h3>Bank transfer / Fiat</h3>
+            <p>We accept bank transfers and digital payments:</p>
+            <ul>
+              <li><strong>IBAN:</strong> YOUR_IBAN_HERE</li>
+              <li><strong>PayPal:</strong> your-paypal@example.com</li>
+              <li><strong>Revolut:</strong> @yourrevolut</li>
+            </ul>
+            <p class="price-note">
+              After payment, send us the receipt together with your document.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEND DOCUMENT -->
+      <section>
+        <h2>Send your document</h2>
+        <p>
+          You can send your document using your preferred channel. We will confirm reception and
+          start the certification process.
+        </p>
+        <div class="contact-buttons">
+          <!-- Sostituisci con i tuoi contatti reali -->
+          <a class="btn btn-wa" href="https://wa.me/0000000000000" target="_blank">
+            WhatsApp
+          </a>
+          <a class="btn btn-tg" href="https://t.me/yourtelegram" target="_blank">
+            Telegram
+          </a>
+          <a class="btn btn-mail" href="mailto:your-email@example.com">
+            Send via email
+          </a>
+        </div>
+        <p class="price-note" style="margin-top:8px;">
+          Supported formats: PDF, JPG, PNG, HEIC, TIFF. If you are unsure, just send what you have.
+        </p>
+      </section>
+
+      <!-- VERIFY -->
+      <section>
+        <h2>Verify a certified document</h2>
+        <p>
+          If you have a document that was certified through Sayari Document Ledger, you can verify it
+          by pasting its hash below. The hash is included in the verification report.
+        </p>
+        <div class="verify-form">
+          <input
+            id="hashInput"
+            class="verify-input"
+            type="text"
+            placeholder="Paste the document hash here (e.g. 0x...)"
+          />
+          <button class="btn btn-ghost" type="button" onclick="verifyHash()">
+            Verify
+          </button>
+          <div id="verifyResult" class="verify-result">
+            <!-- Result will appear here -->
+          </div>
+        </div>
+        <p class="price-note" style="margin-top:8px;">
+          For full transparency, you can also check the transaction directly on an Ethereum block explorer
+          using the transaction ID provided in the report.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      Sayari Document Ledger – Digital Trust Services of Sayari Global Holding<br />
+      This page is informational and does not constitute legal or financial advice.
+    </footer>
+  </div>
+
+  <script>
+    // Placeholder verification logic.
+    // In futuro puoi collegarlo a un tuo backend o a un elenco locale di hash.
+    function verifyHash() {
+      const input = document.getElementById("hashInput");
+      const result = document.getElementById("verifyResult");
+      const value = (input.value || "").trim();
+
+      if (!value) {
+        result.textContent = "Please paste a hash to verify.";
+        result.className = "verify-result err";
+        return;
+      }
+
+      // Qui puoi implementare la tua logica reale.
+      // Per ora mostriamo solo un messaggio generico.
+      if (value.startsWith("0x") && value.length > 20) {
+        result.textContent =
+          "This hash has the correct format. To complete verification, match it with the hash and transaction ID in the official report.";
+        result.className = "verify-result ok";
+      } else {
+        result.textContent =
+          "This does not look like a valid document hash. Please check and try again.";
+        result.className = "verify-result err";
+      }
+    }
+  </script>
+</body>
+</html>
