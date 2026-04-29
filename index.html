@@ -626,31 +626,26 @@
   </div>
 
   <script>
-    // Placeholder verification logic.
-    // In futuro puoi collegarlo a un tuo backend o a un elenco locale di hash.
-    function verifyHash() {
-      const input = document.getElementById("hashInput");
-      const result = document.getElementById("verifyResult");
-      const value = (input.value || "").trim();
+  function verifyHash() {
+    const input = document.getElementById("hashInput");
+    const result = document.getElementById("verifyResult");
+    const value = (input.value || "").trim();
 
-      if (!value) {
-        result.textContent = "Please paste a hash to verify.";
-        result.className = "verify-result err";
-        return;
-      }
-
-      // Qui puoi implementare la tua logica reale.
-      // Per ora mostriamo solo un messaggio generico.
-      if (value.startsWith("0x") && value.length > 20) {
-        result.textContent =
-          "This hash has the correct format. To complete verification, match it with the hash and transaction ID in the official report.";
-        result.className = "verify-result ok";
-      } else {
-        result.textContent =
-          "This does not look like a valid document hash. Please check and try again.";
-        result.className = "verify-result err";
-      }
+    // Validazione hash Ethereum (transaction hash)
+    if (!value || !value.startsWith("0x") || value.length !== 66) {
+      result.textContent = "Invalid Ethereum transaction hash.";
+      result.className = "verify-result err";
+      return;
     }
-  </script>
+
+    // Redirect diretto su Etherscan
+    const etherscanUrl = "https://etherscan.io/tx/" + value;
+    window.open(etherscanUrl, "_blank");
+
+    // Messaggio di conferma locale (opzionale)
+    result.textContent = "Opening Etherscan for this transaction…";
+    result.className = "verify-result ok";
+  }
+</script>
 </body>
 </html>
